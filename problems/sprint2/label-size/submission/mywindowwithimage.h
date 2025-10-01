@@ -9,7 +9,6 @@ class MyWindowWithImage;
 }
 QT_END_NAMESPACE
 
-// В этот класс добавьте метод FitToImage.
 class MyWindowWithImage : public QMainWindow
 {
     Q_OBJECT
@@ -20,7 +19,7 @@ public:
 
     void SetPixmap(QLabel* label_pix, const QString path);
 
-    void FitToImage(QLabel* label);
+    void FitToImage(QLabel *lbl);
 
 private:
     Ui::MyWindowWithImage *ui;

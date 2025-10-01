@@ -1,8 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-// Функция подгоняет изображение под нужный размер окна.
-[[nodiscard("Не игнорируйте результат функции")]] QPixmap ResizeImgToFit(const QPixmap &src, int window_width, int window_height) {
+[[nodiscard("Do not ignore the result of the function")]]
+QPixmap ResizeImgToFit(
+    const QPixmap &src,
+    int window_width,
+    int window_height
+    ) {
     int img_w = src.width();
     int img_h = src.height();
 
@@ -21,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    SetPixmap(/* подставьте сюда путь до ресурса */);
+    SetPixmap(":/cats/images/cat1.jpg");
     FitImage();
 }
 
@@ -34,11 +38,14 @@ void MainWindow::FitImage()
 {
     Q_ASSERT(!active_pixmap.isNull());
 
-    // Напишите этот метод.
-    // 1. Вызовите ResizeImgToFit.
-    // 2. Поместите изображение в lbl_img.
-    // 3. Измените размер lbl_img.
-    // 4. Переместите lbl_img, пользуясь формулами из условия.
+    QPixmap scaled_pixmap = ResizeImgToFit(active_pixmap, width(), height());
+    ui->lbl_img->setPixmap(scaled_pixmap);
+    ui->lbl_img->resize(scaled_pixmap.size());
+
+    int lbl_x = (width() - scaled_pixmap.width()) / 2;
+    int lbl_y = (height() - scaled_pixmap.height()) / 2;
+
+    ui->lbl_img->move(lbl_x, lbl_y);
 }
 
 void MainWindow::resizeEvent(QResizeEvent*)

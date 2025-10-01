@@ -11,3 +11,9 @@ MainWindow::MainWindow(QWidget* parent)
 MainWindow::~MainWindow() {
     delete ui;
 }
+
+void MainWindow::on_btn_hello_clicked()
+{
+    ui->lbl_result->setText("Привет из Qt, "+ ui->le_input->text() + "!");
+}
+

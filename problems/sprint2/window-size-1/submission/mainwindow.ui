@@ -26,6 +26,12 @@
     <property name="text">
      <string>TextLabel</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -34,7 +40,7 @@
      <x>0</x>
      <y>0</y>
      <width>467</width>
-     <height>24</height>
+     <height>39</height>
     </rect>
    </property>
   </widget>

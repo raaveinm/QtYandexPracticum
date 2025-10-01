@@ -50,7 +50,12 @@ Selector::~Selector()
 
 void Selector::on_btn_cart_clicked()
 {
-    // Напишите этот метод.
+    std::vector<CartItem> cart_items = GetCartItems();
+    if (cart_items.empty()) {
+        AddItemsNotification();
+    } else {
+        CartWindow dialog{cart_items, this};
+    }
 }
 
 std::vector<CartItem> Selector::GetCartItems() const {

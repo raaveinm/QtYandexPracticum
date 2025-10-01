@@ -1,3 +1,4 @@
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QIntValidator>
@@ -39,22 +40,28 @@ int CalculateDaysFromStartYear(int day, int month, int year)
 
 QString MainWindow::GetFormatType1(int day, int month, int year)
 {
-    // Реализуйте метод форматирования даты.
+    return QString("%1").arg(day, 2, 10, QChar('0')) + "." + QString("%1").arg(month, 2, 10, QChar('0')) + "." + QString::number(year);
 }
 
 QString MainWindow::GetFormatType2(int day, int month, int year)
 {
-    // Реализуйте метод форматирования даты.
+    return QString("%1").arg(month, 2, 10, QChar('0')) + "/" + QString("%1").arg(day, 2, 10, QChar('0')) + "/" + QString::number(year);
 }
 
 QString MainWindow::GetFormatType3(int day, int month, int year)
 {
-    // Реализуйте метод форматирования даты.
+    std::vector<QString> monthes = {
+        "января","февраля","марта", "апреля",
+        "мая","июня", "июля", "августа",
+        "сентября", "октября", "ноября", "декабря"
+    };
+    return QString::number(day) + " " + monthes[month - 1] + " " + QString::number(year) + " года";
 }
 
 QString MainWindow::GetStrNumDays(int num_days, int year) {
-    // Метод должен возвращать текст о номере дня в году.
+    return QString::number(num_days) + " день в " + QString::number(year) + " году";
 }
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -83,14 +90,19 @@ void MainWindow::ShowFormattedDate()
 
         return;
     }
+    int day = ui->le_day->text().toInt();
+    int month = ui->le_month->text().toInt();
+    int year = ui->le_year->text().toInt();
 
-    // Отобразим результаты.
-    // Используйте DaysPerMonth для определения количества дней в месяце.
-    // Используйте CalculateDaysFromStartYear для определения номера дня в году.
-
-    // Используйте GetFormatType1, GetFormatType2, GetFormatType3 и GetStrNumDays
-    // для определения надписей, которые нужно вывести пользователю.
-    // Эти методы реализуйте самостоятельно.
+    if (day < 1 || day > DaysPerMonth(month, year)) {
+        SetError("Такой даты не существует");
+    } else {
+        ui->lbl_format_type1->setText(GetFormatType1(day, month, year));
+        ui->lbl_format_type2->setText(GetFormatType2(day, month, year));
+        ui->lbl_format_type3->setText(GetFormatType3(day, month, year));
+        int num_days = CalculateDaysFromStartYear(day, month, year);
+        ui->lbl_message->setText(GetStrNumDays(num_days, year));
+    }
 }
 
 void MainWindow::SetError(const QString& err_text)
@@ -103,23 +115,50 @@ void MainWindow::SetError(const QString& err_text)
 
 void MainWindow::on_le_date_textChanged(const QString&)
 {
-    // Пользователь изменил дату. Реализуйте слот.
+    const QString& text = ui->le_date->text();
+    if (ui->le_date->hasAcceptableInput()) {
+        ui->le_date->setStyleSheet("border:1px solid transparent");
+
+        if (text.length() == 10) {
+            QStringList parts = text.split('.');
+            if (parts.size() == 3) {
+                ui->le_day->setText(parts[0]);
+                ui->le_month->setText(parts[1]);
+                ui->le_year->setText(parts[2]);
+            }
+        }
+        ShowFormattedDate(); // Обновляем текстовые метки
+    } else {
+        ui->le_date->setStyleSheet("border:1px solid red");
+        SetError("Некорректная дата");
+    }
 }
 
 void MainWindow::on_le_day_textChanged(const QString&)
 {
     CheckValidity(ui->le_day);
-    // Пользователь изменил день. Реализуйте слот.
+    ShowFormattedDate();
+
+    if (ui->le_day->hasAcceptableInput() && ui->le_month->hasAcceptableInput() && ui->le_year->hasAcceptableInput()) {
+         ui->le_date->setText(GetFormatType1(ui->le_day->text().toInt(), ui->le_month->text().toInt(), ui->le_year->text().toInt()));
+    }
 }
 
 void MainWindow::on_le_month_textChanged(const QString&)
 {
     CheckValidity(ui->le_month);
-    // Пользователь изменил месяц. Реализуйте слот.
+    ShowFormattedDate();
+
+    if (ui->le_day->hasAcceptableInput() && ui->le_month->hasAcceptableInput() && ui->le_year->hasAcceptableInput()) {
+         ui->le_date->setText(GetFormatType1(ui->le_day->text().toInt(), ui->le_month->text().toInt(), ui->le_year->text().toInt()));
+    }
 }
 
-void MainWindow::on_le_year_textChanged(const QString&)
-{
+void MainWindow::on_le_year_textChanged(const QString&) {
     CheckValidity(ui->le_year);
-    // Пользователь изменил год. Реализуйте слот.
+    ShowFormattedDate();
+
+    if (ui->le_day->hasAcceptableInput() && ui->le_month->hasAcceptableInput() && ui->le_year->hasAcceptableInput()) {
+        ui->le_date->setText(GetFormatType1(ui->le_day->text().toInt(), ui->le_month->text().toInt(), ui->le_year->text().toInt()));
+    }
 }
