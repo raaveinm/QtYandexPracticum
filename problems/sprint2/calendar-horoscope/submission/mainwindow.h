@@ -28,8 +28,24 @@ public:
 
 private slots:
 
+    void on_rb_eastern_clicked(bool checked);
+
+    void on_rb_tibetan_clicked(bool checked);
+
+    void on_rb_zoroastrian_clicked(bool checked);
+
+    void on_cb_is_date_clicked(bool checked);
+
+    void on_sb_day_valueChanged(int arg1);
+
+    void on_cb_month_editTextChanged(const QString &arg1);
+
+    void on_le_year_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
+    void CalendarRecomposition(QString year);
+    void HoroscopeRecomposition();
     Calendar calendar_ = Calendar::kEastern;
     Horoscope horoscope_ = Horoscope::kZodiac;
 };
