@@ -38,9 +38,13 @@ private slots:
 
     void on_sb_day_valueChanged(int arg1);
 
-    void on_cb_month_editTextChanged(const QString &arg1);
-
     void on_le_year_textChanged(const QString &arg1);
+
+    void on_rb_zodiac_clicked();
+
+    void on_rb_druid_clicked();
+
+    void on_cb_month_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
@@ -48,5 +52,6 @@ private:
     void HoroscopeRecomposition();
     Calendar calendar_ = Calendar::kEastern;
     Horoscope horoscope_ = Horoscope::kZodiac;
+    // bool is_zodiac_ = true;
 };
 #endif // MAINWINDOW_H

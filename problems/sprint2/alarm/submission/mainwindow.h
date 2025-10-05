@@ -23,10 +23,19 @@ public:
         return alarm_moment_;
     }
 
+private:
+    void Alarm();
+
 private slots:
-    // Тут объявите слоты.
+    void OnTimer();
+
+    void on_pb_start_stop_clicked();
+    void on_action_load_file_triggered();
 
 private:
     Ui::MainWindow *ui;
     QDateTime alarm_moment_;
+    prac::QTimer timer{this};
+    prac::QMediaPlayer player_;
+    QAudioOutput audio_output_{this};
 };

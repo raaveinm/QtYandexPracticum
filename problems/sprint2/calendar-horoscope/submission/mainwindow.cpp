@@ -18,70 +18,55 @@ MainWindow::~MainWindow()
 void MainWindow::on_rb_eastern_clicked(bool checked)
 {
     CalendarRecomposition(ui->le_year->text());
-
 }
 
 
 void MainWindow::on_rb_tibetan_clicked(bool checked)
 {
     CalendarRecomposition(ui->le_year->text());
-
 }
 
 
 void MainWindow::on_rb_zoroastrian_clicked(bool checked)
 {
     CalendarRecomposition(ui->le_year->text());
-
 }
 
 
 void MainWindow::on_cb_is_date_clicked(bool checked)
 {
+    ui->wd_horoscope->setEnabled(checked);
     ui->gb_horoscope->setEnabled(checked);
-    ui->cb_month->setEnabled(checked);
-    ui->label_2->setEnabled(checked);
-    ui->label_3->setEnabled(checked);
-    ui->sb_day->setEnabled(checked);
     HoroscopeRecomposition();
 }
 
 
 void MainWindow::on_sb_day_valueChanged(int arg1)
 {
-    int month = ui->cb_month->currentIndex() + 1;
-
+    HoroscopeRecomposition();
 }
 
-
-void MainWindow::on_cb_month_editTextChanged(const QString &arg1)
+void MainWindow::on_cb_month_currentIndexChanged(int index)
 {
-
+    HoroscopeRecomposition();
 }
 
-/*
-    // Получение символа года по восточному календарю.
-    QString GetAnimalForEasternCalendar(int year);
+void MainWindow::on_rb_zodiac_clicked()
+{
+    HoroscopeRecomposition();
+}
 
-    // Получение стихии года по восточному календарю.
-    QString GetElementForEasternCalendar(int year);
 
-    // Получение символа года по тибетскому календарю.
-    QString GetAnimalForTibetanCalendar(int year);
+void MainWindow::on_rb_druid_clicked()
+{
+    HoroscopeRecomposition();
+}
 
-    // Получение символа года по зороастрийскому календарю.
-    QString GetAnimalForZoroastrianCalendar(int year);
-
-    // Получение знака зодиака.
-    QString GetZodiac(int day, int month, int year);
-
-    // Получение названия тотемного дерева.
-    QString GetTree(int day, int month, int year);
-*/
 
 void MainWindow::on_le_year_textChanged(const QString &arg1)
 {
     CalendarRecomposition(arg1);
+    HoroscopeRecomposition();
 }
 
 
@@ -90,7 +75,8 @@ void MainWindow::CalendarRecomposition(QString year) {
     if (ui->le_year->text().isEmpty()) {
         ui->lbl_calendar->setText("Введите год");
     } else if (ui->rb_eastern->isChecked()) {
-        ui->lbl_calendar->setText(out + GetAnimalForEasternCalendar(year.toInt()) + ". Стихия/цвет — " + GetElementForEasternCalendar(year.toInt()));
+        ui->lbl_calendar->setText(out + GetAnimalForEasternCalendar(year.toInt()) + ". Стихия/цвет — "
+                                  + GetElementForEasternCalendar(year.toInt()));
     } else if (ui->rb_zoroastrian->isChecked()) {
         ui->lbl_calendar->setText(out + GetAnimalForZoroastrianCalendar(year.toInt()));
     } else {
@@ -104,6 +90,32 @@ void MainWindow::HoroscopeRecomposition()
         ui->lbl_horoscope->setText("Ввод даты отключён");
         return;
     }
+
+    int day = ui->sb_day->value();
+    int month = ui->cb_month->currentIndex() + 1;
+    int year = ui->le_year->text().toInt();
+
+    if (ui->rb_zodiac->isChecked()) {
+        QString zodiac_sign = GetZodiac(day, month, year);
+        if (zodiac_sign.isEmpty()) {
+            ui->lbl_horoscope->setText("Такой даты не существует");
+        } else {
+            ui->lbl_horoscope->setText(
+                QString("%1.%2 — ваш знак зодиака %3 по зодиакальному гороскопу")
+                    .arg(day, 2, 10, QChar('0'))
+                    .arg(month, 2, 10, QChar('0'))
+                    .arg(zodiac_sign));
+        }
+    } else {
+        QString tree_sign = GetTree(day, month, year);
+        if (tree_sign.isEmpty()) {
+            ui->lbl_horoscope->setText("Такой даты не существует");
+        } else {
+            ui->lbl_horoscope->setText(
+                QString("%1.%2 — ваше тотемное дерево %3 по гороскопу друидов")
+                    .arg(day, 2, 10, QChar('0'))
+                    .arg(month, 2, 10, QChar('0'))
+                    .arg(tree_sign));
+        }
+    }
 }
-
-

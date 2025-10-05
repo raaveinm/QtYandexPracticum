@@ -991,10 +991,7 @@ mainwindow.o: ../../../submission/mainwindow.cpp ../../../submission/mainwindow.
 		/Users/raaveinm/Qt/6.9.2/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		ui_mainwindow.h \
 		/Users/raaveinm/Qt/6.9.2/macos/lib/QtGui.framework/Headers/QIntValidator \
-		/Users/raaveinm/Qt/6.9.2/macos/lib/QtGui.framework/Headers/qvalidator.h \
-		/Users/raaveinm/Qt/6.9.2/macos/lib/QtCore.framework/Headers/QRegularExpression \
-		/Users/raaveinm/Qt/6.9.2/macos/lib/QtCore.framework/Headers/qregularexpression.h \
-		/Users/raaveinm/Qt/6.9.2/macos/lib/QtGui.framework/Headers/QRegularExpressionValidator
+		/Users/raaveinm/Qt/6.9.2/macos/lib/QtGui.framework/Headers/qvalidator.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../../submission/mainwindow.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
