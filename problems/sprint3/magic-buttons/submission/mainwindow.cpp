@@ -10,8 +10,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     buttons_ = {ui->pb_button_1, ui->pb_button_2, ui->pb_button_3, ui->pb_button_4};
+    actions_.resize(4, Relax);
 
     connect(setting_, &Setting::signalSetAction, this, &MainWindow::slotShowAction);
+
+    for (int i = 0; i < buttons_.size(); ++i) {
+        connect(buttons_[i], &QPushButton::clicked, this, [this, i]() {
+            if (actions_[i]) {
+                actions_[i]();
+            }
+        });
+    }
+
     setWindowFlags(Qt::WindowStaysOnTopHint);
 }
 
@@ -24,6 +34,9 @@ void MainWindow::slotShowAction(int num, QString action_name, std::function<void
     // Сохраните действие, которое будет делать кнопка с номером num.
     // Действие находится в функциональном объекте action.
     // Поменяйте надпись на кнопке: установите текст action_name.
+
+    buttons_[num]->setText(action_name);
+    actions_[num] = action;
 }
 
 void MainWindow::on_pb_sett_1_clicked()

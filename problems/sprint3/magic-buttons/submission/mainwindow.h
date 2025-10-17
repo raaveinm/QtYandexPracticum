@@ -4,6 +4,7 @@
 #include <functional>
 #include "setting.h"
 #include <QPushButton>
+#include <vector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,4 +34,5 @@ private:
     Ui::MainWindow *ui;
     Setting* setting_ = new Setting();
     std::vector<QPushButton*> buttons_;
+    std::vector<std::function<void()>> actions_;
 };

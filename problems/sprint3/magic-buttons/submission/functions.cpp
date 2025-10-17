@@ -11,7 +11,7 @@
 #endif
 
 void OpenYandex() {
-    OpenCustomUrl("https://ya.ru/");
+    OpenCustomUrl("https://store.steampowered.com/");
 }
 
 void OpenPracticum() {
