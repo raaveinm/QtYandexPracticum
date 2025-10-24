@@ -29,5 +29,11 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QString SortWords(const std::vector<std::string>& v, bool is_desc);
+    QString SortWordsInsensetive(const std::vector<QString>& qs, bool is_desc);
+    QString InitSort(const QString& qs);
+
+    bool is_sensetive = false;
+    bool is_descend = false;
 };
 #endif // MAINWINDOW_H
