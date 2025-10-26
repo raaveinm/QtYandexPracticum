@@ -126,16 +126,24 @@ void MainWindow::on_le_amplitude_editingFinished() {
 void MainWindow::CreateSignal() {
     // Обновите сигнал.
     // 1. Получите параметры сигнала через метод GetSignalData().
+    const std::optional<SignalData> data = GetSignalData();
     // 2. Проверьте, что они корректные.
+    if (data == std::nullopt) { return; }
     // 3. Постройте сигнал, используя функцию GenerateSignal
     //    из файла signal-processing.h и сохраните его в поле data_.
+    data_ = GenerateSignal(*data);
     // 4. Перерисуйте окно, вызвав repaint().
+    repaint();
 }
 
 void MainWindow::on_btn_play_clicked() {
     // Воспроизведите звук.
     // 1. Скопируйте вектор в локальную переменную.
+    auto signal = data_;
     // 2. Примените к копии ApplyDecayAndAttack с параметром 12000.
+    ApplyDecayAndAttack(signal, 12000);
     // 3. Добавьте в конец 1200 нулевых отсчётов используя std::fill_n.
+    std::fill_n(std::back_inserter(signal), 1200, 0);
     // 4. Проиграйте, используя player_.Play.
+    player_.Play(signal);
 }

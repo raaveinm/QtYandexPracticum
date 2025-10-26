@@ -21,8 +21,28 @@ public:
 
 private slots:
 
+    void on_btn_pop_clicked();
+    void on_btn_push_clicked();
+    void on_btn_clear_clicked();
+    void on_btn_weekday_clicked();
+    void on_btn_month_clicked();
+
+    void on_btn_prev_clicked();
+
+    void on_btn_next_clicked();
+
+    void on_btn_begin_clicked();
+
+    void on_btn_end_clicked();
+
+    void on_btn_insert_clicked();
+
+    void on_btn_erase_clicked();
+
+    void on_btn_edit_clicked();
+
 private:
-    void ApplyModel();
+    void ApplyModel() const;
 
 private:
     Model vector_model_;
