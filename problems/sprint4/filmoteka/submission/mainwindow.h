@@ -49,7 +49,7 @@ private:
     void ApplyModel(const Movie &selection);
 
     // Заполняет интерфейс на основе данных фильма.
-    void ApplyMovie(const Movie &movie);
+    void ApplyMovie(const Movie &movie) const;
 
     // Получает фильм на основе данных интерфейса.
     Movie GetMovie() const;

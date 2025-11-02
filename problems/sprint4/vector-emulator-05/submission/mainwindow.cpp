@@ -29,7 +29,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::ApplyModel() {
-    auto preserve_iter = vector_model_.iterator;
+    const auto preserve_iter = vector_model_.iterator;
     ui->list_widget->blockSignals(true);
 
     ui->list_widget->clear();
@@ -247,17 +247,13 @@ void MainWindow::on_btn_sort_strict_clicked() {
 
 
 void MainWindow::on_btn_sort_unstrict_clicked() {
-    std::sort(
-        vector_model_.items.begin(),
-        vector_model_.items.end(),
-        [](const std::string& a, const std::string& b) {
-            return std::lexicographical_compare(
-                a.begin(), a.end(),
-                b.begin(), b.end(),
-                [](const unsigned char c1, const unsigned char c2) {
-                    return std::tolower(c1) < std::tolower(c2);
-                });
-        });
+    std::ranges::sort(vector_model_.items,
+                      [](const std::string& a, const std::string& b) {
+                          return std::ranges::lexicographical_compare(a, b,
+                              [](const unsigned char c1, const unsigned char c2) {
+                                  return std::tolower(c1) < std::tolower(c2);
+                          });
+                      });
 
     ApplyModel();
 }
@@ -273,12 +269,12 @@ void MainWindow::on_btn_unique_clicked() {
 
 
 void MainWindow::on_btn_reverse_clicked() {
-    std::reverse(vector_model_.items.begin(), vector_model_.items.end());
+    std::ranges::reverse(vector_model_.items);
     ApplyModel();
 }
 
 
 void MainWindow::on_btn_shuffle_clicked() {
-    std::shuffle(vector_model_.items.begin(), vector_model_.items.end(), gen_);
+    std::ranges::shuffle(vector_model_.items, gen_);
     ApplyModel();
 }
